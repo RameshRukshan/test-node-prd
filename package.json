@@ -12,5 +12,9 @@
   },
   "dependencies": {
     "express": "^5.0.0"
+  },
+  "dependencies": {
+  "pg": "^8.10.0"
   }
 }
+
