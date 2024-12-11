@@ -1,37 +1,20 @@
 const express = require("express");
-const app = express();
-const pool = require('./src/config/database'); // Import the database pool
-const port = process.env.PORT || 3000;
+const pool = require('./src/config/database'); // Import database connection
 
-// Middleware to parse JSON
+const app = express();
 app.use(express.json());
 
-// Test endpoint to check database connection
+// Test endpoint
 app.get('/test-db', async (req, res) => {
   try {
-    const result = await pool.query('SELECT NOW()'); // Sample query to test the database
-    res.status(200).json({ message: 'Database connected successfully', timestamp: result.rows[0].now });
+    const result = await pool.query('SELECT NOW()');
+    res.status(200).json({ message: 'Database connected', timestamp: result.rows[0].now });
   } catch (error) {
-    console.error('Database error:', error.message);
-    res.status(500).json({ message: 'Failed to connect to the database', error: error.message });
+    res.status(500).json({ message: 'Database connection error', error: error.message });
   }
 });
 
-// Define other routes (if any)
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-
-app.get("/", (req, res) => res.type('html').send(html));
-
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-server.keepAliveTimeout = 120 * 1000;
-server.headersTimeout = 120 * 1000;
-
+// HTML content
 const html = `
 <!DOCTYPE html>
 <html>
@@ -82,4 +65,19 @@ const html = `
     </section>
   </body>
 </html>
-`
+`;
+
+// Root route to serve HTML
+app.get("/", (req, res) => res.type('html').send(html));
+
+// Set PORT from environment or default to 3000
+const PORT = process.env.PORT || 3000;
+
+// Start the server
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// Set server timeouts
+server.keepAliveTimeout = 120 * 1000;
+server.headersTimeout = 120 * 1000;
