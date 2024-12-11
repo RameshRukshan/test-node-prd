@@ -1,6 +1,29 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3001;
+const pool = require('./src/config/database'); // Import the database pool
+const port = process.env.PORT || 3000;
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Test endpoint to check database connection
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()'); // Sample query to test the database
+    res.status(200).json({ message: 'Database connected successfully', timestamp: result.rows[0].now });
+  } catch (error) {
+    console.error('Database error:', error.message);
+    res.status(500).json({ message: 'Failed to connect to the database', error: error.message });
+  }
+});
+
+// Define other routes (if any)
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
 
 app.get("/", (req, res) => res.type('html').send(html));
 
