@@ -1,5 +1,5 @@
 const express = require("express");
-const pool = require('./src/config/database'); // Import database connection
+const pool = require('./src/config/database'); // database connection
 
 const app = express();
 app.use(express.json());
