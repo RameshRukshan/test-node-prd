@@ -9,6 +9,6 @@ router.get('/:nic', PassengerController.getPassengerByNIC);
 router.get('/', PassengerController.getAllPassengers);
 router.put('/:nic', PassengerController.updatePassenger);
 router.delete('/:nic', PassengerController.deletePassenger);
-router.post('/verify-password', PassengerController.verifyPassword); // New endpoint for password verification
+router.post('/verify-password', PassengerController.verifyPassword); 
 
 module.exports = router;
