@@ -2,10 +2,12 @@ const express = require("express");
 const pool = require('./src/config/database'); // database connection
 
 const ownerRouts = require('./src/routes/ownerRouts');
+const ownerRouts = require('./src/routes/passengerRouts');
 
 const app = express();
 app.use(express.json());
 app.use('/owner', ownerRouts)
+app.use('/passenger', passengerRouts)
 
 // Test endpoint
 app.get('/test-db', async (req, res) => {
